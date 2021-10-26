@@ -23,6 +23,27 @@ class TwitterBot:
         password.send_keys(Keys.RETURN)
         time.sleep(4)
 
+    def twitter_like(self, hashtag):
+        bot = self.bot
+        heart_count = 0
+        #bot.get('https://twitter.com/search?q=' + hashtag + '&src=typd')
+        bot.get('https://twitter.com/' + hashtag)
+        time.sleep(4)
+        for _ in range(1,3):
+            bot.execute_script('window.scrollTo(0,document.body.scrollHeight)')
+            time.sleep(3) # 2
+            tweets = bot.find_elements_by_class_name('tweet')
+            links = [elem.get_attribute('data-permalink-path') for elem in tweets]
+            for link in links:
+                bot.get('https://twitter.com' + link) # maybe / is missing idk
+                try:
+                    bot.find_element_by_class_name('HeartAnimation').click()
+                    heart_count += 1
+                    #print('Beep Bop! I already liked ' + heart_count + ' different posts!')
+                    time.sleep(3)
+                except Exception:
+                    time.sleep(60)
+
     def post(self):
         pass
 
