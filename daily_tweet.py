@@ -3,12 +3,26 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
+# preparing the options for the chrome driver
+options = webdriver.ChromeOptions()
+#options.add_argument("headless")
+options.add_argument("--mute-audio")
+options.add_argument("--disable-extensions")
+options.add_argument("--proxy-server='direct://'")
+options.add_argument("--proxy-bypass-list=*")
+options.add_argument("--disable-gpu")
+options.add_argument("--disable-dev-shm-usage")
+options.add_argument("--no-sandbox")
+options.add_argument("--ignore-certificate-errors")
+options.add_argument("log-level=3")
+options.add_experimental_option('excludeSwitches', ['enable-logging'])
+
 
 class TwitterBot:
     def __init__(self, email, password):
         self.email = email
         self.password = password
-        self.bot = webdriver.Chrome('./resources/chromedriver.exe')
+        self.bot = webdriver.Chrome('./resources/chromedriver.exe', options=options)
 
     def login(self):
         bot = self.bot
@@ -52,5 +66,5 @@ class TwitterBot:
 
 
 jg = TwitterBot('jaroslawgyro4@gmail.com', 'Hub123!@#')
-
+jg.login()
     
