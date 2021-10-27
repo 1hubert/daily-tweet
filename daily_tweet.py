@@ -4,7 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
 
-# preparing the options for the chrome driver
+# Preparing the options for the chrome driver
 options = webdriver.ChromeOptions()
 #options.add_argument("headless")
 options.add_argument("--mute-audio")
@@ -31,7 +31,7 @@ class TwitterBot:
         time.sleep(4)
 
         email = bot.find_element_by_tag_name('input')
-        email.clear()  # Just in case
+        email.clear()
         email.send_keys(self.email)
         time.sleep(1)
         next = bot.find_elements_by_css_selector('[role="button"]')[2]
@@ -55,26 +55,34 @@ class TwitterBot:
         bot.find_element_by_css_selector('[data-testid="LoginForm_Login_Button"]').click()
         time.sleep(4)
 
-    def twitter_like(self, hashtag):
+    def twitter_like(self, user_tag):
         bot = self.bot
         heart_count = 0
-        #bot.get('https://twitter.com/search?q=' + hashtag + '&src=typd')
-        bot.get('https://twitter.com/' + hashtag)
+        bot.get('https://twitter.com/' + user_tag)
         time.sleep(4)
-        for _ in range(1,3):
+
+        for _ in range(10):
             bot.execute_script('window.scrollTo(0,document.body.scrollHeight)')
-            time.sleep(3) # 2
-            tweets = bot.find_elements_by_class_name('tweet')
-            links = [elem.get_attribute('data-permalink-path') for elem in tweets]
-            for link in links:
-                bot.get('https://twitter.com' + link) # maybe / is missing idk
-                try:
-                    bot.find_element_by_class_name('HeartAnimation').click()
-                    heart_count += 1
-                    #print('Beep Bop! I already liked ' + heart_count + ' different posts!')
-                    time.sleep(3)
-                except Exception:
-                    time.sleep(60)
+            time.sleep(1)
+
+        tweets = bot.find_elements_by_css_selector('[role="link"]')
+
+        links=[]
+        for elem in tweets:
+            elem = elem.get_attribute('href')
+            if 'status' in elem and '/photo' not in elem and elem not in links:
+                links.append(elem)
+
+        for link in links:
+            print("link: ", link)
+            bot.get(link)
+            time.sleep(3.5)
+            try:
+                bot.find_element_by_css_selector('[aria-label="Like"]').click()
+                heart_count += 1
+                print('Liked ', heart_count, ' different posts from user ', user_tag)
+            except NoSuchElementException:
+                print("This post has already been liked by this account or there is no such element")
 
     def post(self):
         pass
@@ -88,6 +96,8 @@ print()
 print()
 print()
 print()
+
 jg = TwitterBot('jaroslawgyro4@gmail.com', 'Hub123!@#')
 jg.login()
+jg.twitter_like('hood_x_art')
     
