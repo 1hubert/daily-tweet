@@ -28,7 +28,7 @@ class TwitterBot:
     def login(self):
         bot = self.bot
         bot.get('https://twitter.com/i/flow/login')
-        time.sleep(4)
+        time.sleep(3.5)
 
         email = bot.find_element_by_tag_name('input')
         email.clear()
@@ -36,7 +36,7 @@ class TwitterBot:
         time.sleep(1)
         next = bot.find_elements_by_css_selector('[role="button"]')[2]
         next.click()
-        time.sleep(2)
+        time.sleep(1)
 
         try:
             your_name_here = bot.find_element_by_css_selector('[inputmode="text"]')
@@ -44,7 +44,7 @@ class TwitterBot:
             time.sleep(0.2)
             next = bot.find_elements_by_css_selector('[role="button"]')[2]
             next.click()
-            time.sleep(2)
+            time.sleep(1)
         except NoSuchElementException:
             pass
         
@@ -53,7 +53,7 @@ class TwitterBot:
         password.send_keys(self.password)
         time.sleep(1)
         bot.find_element_by_css_selector('[data-testid="LoginForm_Login_Button"]').click()
-        time.sleep(4)
+        time.sleep(2)
 
     def twitter_like(self, user_tag):
         bot = self.bot
@@ -84,8 +84,19 @@ class TwitterBot:
             except NoSuchElementException:
                 print("This post has already been liked by this account or there is no such element")
 
-    def post(self):
-        pass
+    def post(self, text):
+        bot = self.bot
+        if bot.current_url != 'https://twitter.com/home':
+            bot.get('https://twitter.com/home')
+            time.sleep(2)
+
+        whats_happening = bot.find_element_by_css_selector('[class="public-DraftStyleDefault-block public-DraftStyleDefault-ltr"]')
+        whats_happening.send_keys(text)
+        
+        send_button = bot.find_element_by_css_selector('[data-testid="tweetButtonInline"]')
+        send_button.click()
+        
+
 
     def like_your_own_post(self):
         pass
@@ -99,5 +110,5 @@ print()
 
 jg = TwitterBot('jaroslawgyro4@gmail.com', 'Hub123!@#')
 jg.login()
-jg.twitter_like('hood_x_art')
+jg.post('test :))))))))))))))))))))')
     
