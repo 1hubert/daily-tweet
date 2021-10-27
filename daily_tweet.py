@@ -2,6 +2,7 @@ import time
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import NoSuchElementException
 
 # preparing the options for the chrome driver
 options = webdriver.ChromeOptions()
@@ -26,15 +27,32 @@ class TwitterBot:
 
     def login(self):
         bot = self.bot
-        bot.get('https://twitter.com')
-        time.sleep(2)
-        email = bot.find_element_by_class_name('email-input')
-        password = bot.find_element_by_name('session[password]')
+        bot.get('https://twitter.com/i/flow/login')
+        time.sleep(4)
+
+        email = bot.find_element_by_tag_name('input')
         email.clear()  # Just in case
-        password.clear()
         email.send_keys(self.email)
+        time.sleep(1)
+        next = bot.find_elements_by_css_selector('[role="button"]')[2]
+        next.click()
+        time.sleep(2)
+
+        try:
+            your_name_here = bot.find_element_by_css_selector('[inputmode="text"]')
+            your_name_here.send_keys('GyroZep27172727')
+            time.sleep(0.2)
+            next = bot.find_elements_by_css_selector('[role="button"]')[2]
+            next.click()
+            time.sleep(2)
+        except NoSuchElementException:
+            pass
+        
+        password = bot.find_elements_by_tag_name('input')[1]
+        password.clear()
         password.send_keys(self.password)
-        password.send_keys(Keys.RETURN)
+        time.sleep(1)
+        bot.find_element_by_css_selector('[data-testid="LoginForm_Login_Button"]').click()
         time.sleep(4)
 
     def twitter_like(self, hashtag):
@@ -65,6 +83,11 @@ class TwitterBot:
         pass
 
 
+print()
+print()
+print()
+print()
+print()
 jg = TwitterBot('jaroslawgyro4@gmail.com', 'Hub123!@#')
 jg.login()
     
