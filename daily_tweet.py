@@ -97,7 +97,12 @@ class TwitterBot:
         send_button = bot.find_element_by_css_selector('[data-testid="tweetButtonInline"]')
         send_button.click()
         
-    
+    def send_file(self):
+        bot = self.bot
+        # Find send button
+        media_button = bot.find_element_by_css_selector('[aria-label="Add photos or video"]')
+        # attach a file
+        media_button.send_keys('./images/img1.jpg')
 
     def like_your_own_post(self):
         pass
