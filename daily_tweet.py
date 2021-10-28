@@ -85,7 +85,10 @@ class TwitterBot:
             except NoSuchElementException:
                 print("This post has already been liked by this account or there is no such element")
 
-    def post(self, text):
+        media_button = bot.find_element_by_css_selector('[aria-label="Add photos or video"]')
+        media_button.send_keys('./images/img1.jpg')
+
+    def post(self, text=None, media_path=None):
         bot = self.bot
         if bot.current_url != 'https://twitter.com/home':
             bot.get('https://twitter.com/home')
@@ -94,15 +97,16 @@ class TwitterBot:
         whats_happening = bot.find_element_by_css_selector('[class="public-DraftStyleDefault-block public-DraftStyleDefault-ltr"]')
         whats_happening.send_keys(text)
         
+        time.sleep(1)
+
+        #media_button = bot.find_element_by_css_selector('[class="css-18t94o4 css-1dbjc4n r-1niwhzg r-42olwf r-sdzlij r-1phboty r-rs99b7 r-5vhgbc r-mvpalk r-htfu76 r-2yi16 r-1qi8awa r-1ny4l3l r-o7ynqc r-6416eg r-lrvibr"]')
+        media_button = bot.find_elements_by_css_selector('[role="button"]')[9]
+        media_button.send_keys(media_path)
+
+        time.sleep(1)
+
         send_button = bot.find_element_by_css_selector('[data-testid="tweetButtonInline"]')
         send_button.click()
-        
-    def send_file(self):
-        bot = self.bot
-        # Find send button
-        media_button = bot.find_element_by_css_selector('[aria-label="Add photos or video"]')
-        # attach a file
-        media_button.send_keys('./images/img1.jpg')
 
     def like_your_own_post(self):
         pass
@@ -116,5 +120,5 @@ print()
 
 jg = TwitterBot('jaroslawgyro4@gmail.com', 'Hub123!@#', 'GyroZep27172727')
 jg.login()
-jg.post('test :))))))))))))))))))))')
+jg.post('Nice weather outside', './images/img1.jpg')
     
