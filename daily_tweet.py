@@ -20,9 +20,10 @@ options.add_experimental_option('excludeSwitches', ['enable-logging'])
 
 
 class TwitterBot:
-    def __init__(self, email, password):
+    def __init__(self, email, password, user_tag):
         self.email = email
         self.password = password
+        self.user_tag = user_tag
         self.bot = webdriver.Chrome('./resources/chromedriver.exe', options=options)
 
     def login(self):
@@ -40,7 +41,7 @@ class TwitterBot:
 
         try:
             your_name_here = bot.find_element_by_css_selector('[inputmode="text"]')
-            your_name_here.send_keys('GyroZep27172727')
+            your_name_here.send_keys(self.user_tag)
             time.sleep(0.2)
             next = bot.find_elements_by_css_selector('[role="button"]')[2]
             next.click()
@@ -55,10 +56,10 @@ class TwitterBot:
         bot.find_element_by_css_selector('[data-testid="LoginForm_Login_Button"]').click()
         time.sleep(2)
 
-    def twitter_like(self, user_tag):
+    def twitter_like(self, user_tag_to_like):
         bot = self.bot
         heart_count = 0
-        bot.get('https://twitter.com/' + user_tag)
+        bot.get('https://twitter.com/' + user_tag_to_like)
         time.sleep(4)
 
         for _ in range(10):
@@ -80,7 +81,7 @@ class TwitterBot:
             try:
                 bot.find_element_by_css_selector('[aria-label="Like"]').click()
                 heart_count += 1
-                print('Liked ', heart_count, ' different posts from user ', user_tag)
+                print('Liked ', heart_count, ' different posts from user ', user_tag_to_like)
             except NoSuchElementException:
                 print("This post has already been liked by this account or there is no such element")
 
@@ -96,7 +97,7 @@ class TwitterBot:
         send_button = bot.find_element_by_css_selector('[data-testid="tweetButtonInline"]')
         send_button.click()
         
-
+    
 
     def like_your_own_post(self):
         pass
@@ -108,7 +109,7 @@ print()
 print()
 print()
 
-jg = TwitterBot('jaroslawgyro4@gmail.com', 'Hub123!@#')
+jg = TwitterBot('jaroslawgyro4@gmail.com', 'Hub123!@#', 'GyroZep27172727')
 jg.login()
 jg.post('test :))))))))))))))))))))')
     
