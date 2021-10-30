@@ -113,6 +113,13 @@ def post_every_x_seconds_y_times(twitter_bot_object, x, y):
         time.sleep(x)
 
 
+def post_every_x_hours_y_times(twitter_bot_object, x, y):
+    time_in_seconds = x * 60 * 60
+    for i in range(y):
+        twitter_bot_object.post(media_path=r'C:\Users\user\Documents\Python\daily-tweet\images\img' + str(i + 1) + '.png')
+        time.sleep(time_in_seconds)
+
+
 print()
 print()
 print()
