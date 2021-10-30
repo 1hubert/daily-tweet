@@ -90,16 +90,19 @@ class TwitterBot:
 
     def post(self, text=None, media_path=None):
         bot = self.bot
-
+        print(bot.current_url)
         if bot.current_url != 'https://twitter.com/home':
             bot.get('https://twitter.com/home')
             time.sleep(2)
 
-        whats_happening = bot.find_element_by_css_selector('[class="public-DraftStyleDefault-block public-DraftStyleDefault-ltr"]')
-        whats_happening.send_keys(text)
-        media_button = bot.find_element_by_css_selector('input[accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/quicktime,video/webm"]')
-        media_button.send_keys(media_path)
-        time.sleep(1)
+        if text:
+            whats_happening = bot.find_element_by_css_selector('[class="public-DraftStyleDefault-block public-DraftStyleDefault-ltr"]')
+            whats_happening.send_keys(text)
+
+        if media_path:
+            media_button = bot.find_element_by_css_selector('input[accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/quicktime,video/webm"]')
+            media_button.send_keys(media_path)
+
         send_button = bot.find_element_by_css_selector('[data-testid="tweetButtonInline"]')
         send_button.click()
 
