@@ -90,7 +90,7 @@ class TwitterBot:
 
     def post(self, text=None, media_path=None):
         bot = self.bot
-        print(bot.current_url)
+
         if bot.current_url != 'https://twitter.com/home':
             bot.get('https://twitter.com/home')
             time.sleep(2)
@@ -107,6 +107,12 @@ class TwitterBot:
         send_button.click()
 
 
+def post_every_x_seconds_y_times(twitter_bot_object, x, y):
+    for i in range(y):
+        twitter_bot_object.post(media_path=r'C:\Users\user\Documents\Python\daily-tweet\images\img' + str(i + 1) + '.png')
+        time.sleep(x)
+
+
 print()
 print()
 print()
@@ -115,5 +121,5 @@ print()
 
 jg = TwitterBot('jaroslawgyro4@gmail.com', 'Hub123!@#', 'GyroZep27172727')
 jg.login()
-jg.post('Nice weather outside', r'C:\Users\user\Documents\Python\daily-tweet\images\img1.png')
+post_every_x_seconds_y_times(jg, 15, 2)
     
