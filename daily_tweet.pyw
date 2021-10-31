@@ -1,4 +1,4 @@
-#! c:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python39\\pythonw.exe
+
 
 import time
 import os
