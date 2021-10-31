@@ -7,9 +7,11 @@ from selenium.common.exceptions import NoSuchElementException
 
 from random_mandelbrot_zoom import mandelbrot
 
+script_location = os.path.dirname(__file__)
+
 # Preparing the options for the chrome driver
 options = webdriver.ChromeOptions()
-options.add_argument("headless")
+#options.add_argument("headless")
 options.add_argument("--mute-audio")
 options.add_argument("--disable-extensions")
 options.add_argument("--proxy-server='direct://'")
@@ -27,7 +29,7 @@ class TwitterBot:
         self.email = email
         self.password = password
         self.user_tag = user_tag
-        self.bot = webdriver.Chrome('./resources/chromedriver.exe', options=options)
+        self.bot = webdriver.Chrome(script_location + '\\resources\\chromedriver.exe', options=options)
 
     def login(self):
         bot = self.bot
@@ -88,9 +90,6 @@ class TwitterBot:
             except NoSuchElementException:
                 print("This post has already been liked by this account or there is no such element")
 
-        media_button = bot.find_element_by_css_selector('[aria-label="Add photos or video"]')
-        media_button.send_keys('./images/img1.jpg')
-
     def post(self, text=None, media_path=None):
         bot = self.bot
 
@@ -103,12 +102,13 @@ class TwitterBot:
             whats_happening.send_keys(text)
 
         if media_path:
-            media_button = bot.find_element_by_css_selector('input[accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/quicktime,video/webm"]')
+            media_button = bot.find_element_by_css_selector('[accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/quicktime,video/webm"]')
             media_button.send_keys(media_path)
 
         time.sleep(0.5)
         send_button = bot.find_element_by_css_selector('[data-testid="tweetButtonInline"]')
         send_button.click()
+        time.sleep(2)
 
     def close(self):
         self.bot.close()
@@ -116,25 +116,25 @@ class TwitterBot:
 
 def post_every_x_seconds_y_times(twitter_bot_object, x, y):
     for i in range(y):
-        twitter_bot_object.post(media_path=r'C:\Users\user\Documents\Python\daily-tweet\images\img' + str(i + 1) + '.png')
+        twitter_bot_object.post(media_path=script_location+'\\images\\img' + str(i + 1) + '.png')
         time.sleep(x)
 
 
 def post_every_x_hours_y_times(twitter_bot_object, x, y):
     time_in_seconds = x * 60 * 60
     for i in range(y):
-        twitter_bot_object.post(media_path=r'C:\Users\user\Documents\Python\daily-tweet\images\img' + str(i + 1) + '.png')
+        twitter_bot_object.post(media_path=script_location+'\\images\\img' + str(i + 1) + '.png')
         time.sleep(time_in_seconds)
 
 
 def post_random_mandelbrot_zoom(twitter_bot_object):
     mandelbrot()
-    path_to_mandelbrot_image = r'C:\Users\user\Documents\Python\daily-tweet\images\mandelbrot.png'
+    path_to_mandelbrot_image = script_location + '\\images\\mandelbrot.png'
     twitter_bot_object.post(media_path=path_to_mandelbrot_image)
     os.remove(path_to_mandelbrot_image)
 
 
-with open('twitter_login_credentials.txt', 'r') as f:
+with open(script_location + '\\twitter_login_credentials.txt', 'r') as f:
     login_credentials = f.read().splitlines()
 
 email = login_credentials[0]
