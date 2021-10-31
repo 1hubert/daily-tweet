@@ -9,7 +9,7 @@ from random_mandelbrot_zoom import mandelbrot
 
 # Preparing the options for the chrome driver
 options = webdriver.ChromeOptions()
-#options.add_argument("headless")
+options.add_argument("headless")
 options.add_argument("--mute-audio")
 options.add_argument("--disable-extensions")
 options.add_argument("--proxy-server='direct://'")
