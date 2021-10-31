@@ -3,13 +3,13 @@
 import time
 import os
 import sys
-import win32gui
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
 
 from random_mandelbrot_zoom import mandelbrot
+from resources.service import HiddenChromeWebDriver
 
 script_location = os.path.dirname(__file__)
 
@@ -33,7 +33,7 @@ class TwitterBot:
         self.email = email
         self.password = password
         self.user_tag = user_tag
-        self.bot = webdriver.Chrome(script_location + '\\resources\\chromedriver.exe', options=options)
+        self.bot = HiddenChromeWebDriver(script_location + '\\resources\\chromedriver.exe', options=options)
 
     def login(self):
         bot = self.bot
@@ -137,13 +137,6 @@ def post_random_mandelbrot_zoom(twitter_bot_object):
     twitter_bot_object.post(media_path=path_to_mandelbrot_image)
     os.remove(path_to_mandelbrot_image)
 
-# hide chromedriver console on Windows
-def enumWindowFunc(hwnd, windowList):
-    """ win32gui.EnumWindows() callback """
-    text = win32gui.GetWindowText(hwnd)
-    className = win32gui.GetClassName(hwnd)
-    if 'chromedriver' in text.lower() or 'chromedriver' in className.lower():
-        win32gui.ShowWindow(hwnd, False)
 
 
 with open(script_location + '\\twitter_login_credentials.txt', 'r') as f:
@@ -154,7 +147,6 @@ password = login_credentials[1]
 user_tag = login_credentials[2]
 
 jg = TwitterBot(email, password, user_tag)
-win32gui.EnumWindows(enumWindowFunc, [])
 jg.login()
 post_random_mandelbrot_zoom(jg)
 jg.close()
