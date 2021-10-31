@@ -136,7 +136,6 @@ def post_random_mandelbrot_zoom(twitter_bot_object):
     os.remove(path_to_mandelbrot_image)
 
 
-
 with open(script_location + '\\twitter_login_credentials.txt', 'r') as f:
     login_credentials = f.read().splitlines()
 
