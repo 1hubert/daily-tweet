@@ -1,8 +1,11 @@
 import time
+import os
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
+
+from random_mandelbrot_zoom import mandelbrot
 
 # Preparing the options for the chrome driver
 options = webdriver.ChromeOptions()
@@ -103,6 +106,7 @@ class TwitterBot:
             media_button = bot.find_element_by_css_selector('input[accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/quicktime,video/webm"]')
             media_button.send_keys(media_path)
 
+        time.sleep(0.5)
         send_button = bot.find_element_by_css_selector('[data-testid="tweetButtonInline"]')
         send_button.click()
 
@@ -120,6 +124,13 @@ def post_every_x_hours_y_times(twitter_bot_object, x, y):
         time.sleep(time_in_seconds)
 
 
+def post_random_mandelbrot_zoom(twitter_bot_object):
+    mandelbrot()
+    path_to_mandelbrot_image = r'C:\Users\user\Documents\Python\daily-tweet\images\mandelbrot.png'
+    twitter_bot_object.post(media_path=path_to_mandelbrot_image)
+    os.remove(path_to_mandelbrot_image)
+
+
 print()
 print()
 print()
@@ -128,5 +139,8 @@ print()
 
 jg = TwitterBot('jaroslawgyro4@gmail.com', 'Hub123!@#', 'GyroZep27172727')
 jg.login()
-post_every_x_seconds_y_times(jg, 15, 2)
+
+for i in range(3):
+    post_random_mandelbrot_zoom(jg)
+    time.sleep(60)
     
