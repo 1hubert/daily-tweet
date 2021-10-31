@@ -1,8 +1,9 @@
+import os
+import random
+
 from PIL import Image
 from numpy import array
-import random
 import colorsys
-import os
 
 script_location = os.path.dirname(__file__)
 
