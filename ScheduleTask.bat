@@ -1,0 +1,5 @@
+@ECHO OFF
+SET var1="FULL_PATH_TO_PYTHON_EXE_HERE"
+SET var2="FULL_PATH_TO_DAILY_TWEET.PYW_HERE"
+schtasks /Create /SC DAILY /ST 19:00 /TN DailyTweet /TR %var1=%~1% %var2=%~1%
+PAUSE
