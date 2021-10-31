@@ -110,6 +110,9 @@ class TwitterBot:
         send_button = bot.find_element_by_css_selector('[data-testid="tweetButtonInline"]')
         send_button.click()
 
+    def close(self):
+        self.bot.close()
+
 
 def post_every_x_seconds_y_times(twitter_bot_object, x, y):
     for i in range(y):
@@ -141,3 +144,4 @@ user_tag = login_credentials[2]
 jg = TwitterBot(email, password, user_tag)
 jg.login()
 post_random_mandelbrot_zoom(jg)
+jg.close()
