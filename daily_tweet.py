@@ -131,16 +131,9 @@ def post_random_mandelbrot_zoom(twitter_bot_object):
     os.remove(path_to_mandelbrot_image)
 
 
-print()
-print()
-print()
-print()
-print()
-
 jg = TwitterBot('jaroslawgyro4@gmail.com', 'Hub123!@#', 'GyroZep27172727')
 jg.login()
 
 for i in range(3):
     post_random_mandelbrot_zoom(jg)
     time.sleep(60)
-    
