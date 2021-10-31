@@ -140,3 +140,4 @@ user_tag = login_credentials[2]
 
 jg = TwitterBot(email, password, user_tag)
 jg.login()
+post_random_mandelbrot_zoom(jg)
