@@ -15,7 +15,7 @@ image = Image.new("RGB", (IMG_X, IMG_Y))
 
 def random_zoom():
 	a = random.uniform(1, 9.9999)
-	b = random.randint(2, 14)
+	b = random.randint(2, 13)
 	return a ** -b
 
 
@@ -28,22 +28,23 @@ def rgb_conversion_reddish(i):
     return tuple(color.astype(int))
 
 
-zoom = random_zoom()
-x1 = X - zoom
-x2 = X + zoom
-y1 = Y - zoom
-y2 = Y + zoom
+def mandelbrot():
+	zoom = random_zoom()
+	x1 = X - zoom
+	x2 = X + zoom
+	y1 = Y - zoom
+	y2 = Y + zoom
 
-for y in range(IMG_Y):
-	zy = y * (y2 - y1) / (IMG_Y - 1) + y1
-	for x in range(IMG_X):
-		zx = x * (x2 - x1) / (IMG_X - 1) + x1
-		z = zx + zy * 1j
-		c = z
-		for i in range(ITERATIONS):
-			if abs(z) > 2.0:
-				break
-			z = z * z + c
-		image.putpixel((x, y), rgb_conversion(i))
+	for y in range(IMG_Y):
+		zy = y * (y2 - y1) / (IMG_Y - 1) + y1
+		for x in range(IMG_X):
+			zx = x * (x2 - x1) / (IMG_X - 1) + x1
+			z = zx + zy * 1j
+			c = z
+			for i in range(ITERATIONS):
+				if abs(z) > 2.0:
+					break
+				z = z * z + c
+			image.putpixel((x, y), rgb_conversion(i))
 
-image.show()
+	image.save('./images/mandelbrot.png')
