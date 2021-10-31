@@ -131,9 +131,12 @@ def post_random_mandelbrot_zoom(twitter_bot_object):
     os.remove(path_to_mandelbrot_image)
 
 
-jg = TwitterBot('jaroslawgyro4@gmail.com', 'Hub123!@#', 'GyroZep27172727')
-jg.login()
+with open('twitter_login_credentials.txt', 'r') as f:
+    login_credentials = f.read().splitlines()
 
-for i in range(3):
-    post_random_mandelbrot_zoom(jg)
-    time.sleep(60)
+email = login_credentials[0]
+password = login_credentials[1]
+user_tag = login_credentials[2]
+
+jg = TwitterBot(email, password, user_tag)
+jg.login()
