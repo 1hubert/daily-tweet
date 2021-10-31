@@ -48,5 +48,3 @@ def mandelbrot():
 			image.putpixel((x, y), rgb_conversion(i))
 
 	image.save('./images/mandelbrot.png')
-
-mandelbrot()
