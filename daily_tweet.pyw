@@ -112,8 +112,8 @@ class TwitterBot:
         send_button.click()
         time.sleep(2)
 
-    def close(self):
-        self.bot.close()
+    def quit(self):
+        self.bot.quit()
 
 
 def post_every_x_seconds_y_times(twitter_bot_object, x, y):
@@ -146,5 +146,5 @@ user_tag = login_credentials[2]
 jg = TwitterBot(email, password, user_tag)
 jg.login()
 post_random_mandelbrot_zoom(jg)
-jg.close()
+jg.quit()
 sys.exit()
