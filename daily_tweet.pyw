@@ -138,14 +138,13 @@ email = login_credentials[0]
 password = login_credentials[1]
 user_tag = login_credentials[2]
 
-jg = TwitterBot(email, password, user_tag)
+twitter_bot_1 = TwitterBot(email, password, user_tag)
 
 try:
-    jg.login()
-    post_random_mandelbrot_zoom(jg)
+    twitter_bot_1.login()
+    post_random_mandelbrot_zoom(twitter_bot_1)
 except NoSuchElementException:
-    jg.quit()
-    sys.exit()
+    pass
 
-jg.quit()
+twitter_bot_1.quit()
 sys.exit()
